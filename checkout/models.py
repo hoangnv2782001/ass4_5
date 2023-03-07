@@ -20,7 +20,7 @@ class Order(models.Model):
     status = models.IntegerField(choices=ORDER_STATUSES, default=SUBMITTED)
     ip_address = models.IPAddressField()
     last_updated = models.DateTimeField(auto_now=True)
-    user = models.ForeignKey(User, null=True)
+    user = models.ForeignKey(User, null=True,on_delete=models.CASCADE)
     transaction_id = models.CharField(max_length=20)
 
     # contact info
@@ -58,10 +58,10 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-    product = models.ForeignKey(Product)
+    product = models.ForeignKey(Product,on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
     price = models.DecimalField(max_digits=9, decimal_places=2)
-    order = models.ForeignKey(Order)
+    order = models.ForeignKey(Order,on_delete=models.CASCADE)
 
     @property
     def total(self):
