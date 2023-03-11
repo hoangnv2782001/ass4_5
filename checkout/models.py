@@ -18,7 +18,7 @@ class Order(models.Model):
     # order info
     date = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=ORDER_STATUSES, default=SUBMITTED)
-    ip_address = models.IPAddressField()
+    ip_address =models.CharField(max_length=20)
     last_updated = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, null=True,on_delete=models.CASCADE)
     transaction_id = models.CharField(max_length=20)

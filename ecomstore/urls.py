@@ -19,6 +19,7 @@ import preview.views
 import catalog.urls
 import cart.urls
 from .views import file_not_found_404
+import accounts.urls
 
 admin.autodiscover()
 
@@ -27,7 +28,7 @@ urlpatterns = [
     # path("catalog/",preview.views.home),
     path('catalog/',include(catalog.urls)),
     path('cart/',include(cart.urls)),
-    path('accounts/', include('accounts.urls')),
+    # path('accounts/', include(accounts.urls)),
     path('ccounts/', include('django.contrib.auth.urls')),
 ]
 handler404 = file_not_found_404
