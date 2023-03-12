@@ -17,7 +17,7 @@
         <tfoot>
         <tr>
             <th class="right" colspan="5">
-
+                Cart Subtotal:
             </th>
             <th class="right">
                 {{ cart_subtotal|currency }}
@@ -41,19 +41,23 @@
                         </a>
                     </td>
                     <td>{{ item.price|currency }}</td>
-                    <td class="right">
-                        <form method="post" action="." class="cart">
+                    <form method="post" action="." class="cart">
+
+                        <td class="right">
+                            {% csrf_token %}
                             <label for="quantity">Quantity:</label>
                             <input type="text" name="quantity" value="{{ item.quantity }}" id="quantity"
                                    size="2" class="quantity" maxlength="5"/>
                             <input type="hidden" name="item_id" value="{{ item.id }}"/>
-                    </td>
-                    <td>
-                        <input type="submit" name="submit" value="Update"/>
-                        </form>
-                    </td>
+                        </td>
+                        <td>
+                            <input type="submit" name="submit" value="Update"/>
+                        </td>
+                    </form>
+
                     <td>
                         <form method="post" action="." class="cart">
+                            {% csrf_token %}
                             <input type="hidden" name="item_id" value="{{ item.id }}"/>
                             <input type="submit" name="submit" value="Remove"/>
                         </form>

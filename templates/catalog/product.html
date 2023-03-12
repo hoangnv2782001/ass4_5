@@ -26,12 +26,7 @@
 
     <form method="post" action="." class="cart">
         {{ form.as_p }}
-        <br/>
-{#        <label for=”quantity”>Quantity</label><input type="text" id="quantity" value="1"/>#}
-        <br/>
-{#        <ul class="errorlist">#}
-{#            <li>Please enter a valid quantity.</li>#}
-{#        </ul>#}
+        {% csrf_token %}
         <br/>
         <input type="submit" value="Add To Cart" name="submit" alt="Add To Cart"/>
     </form>
