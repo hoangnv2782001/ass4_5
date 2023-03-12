@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-ea3o(ic&c9z^(5j19u#bzlxyamsmo9be-xpyo(1h3iq#qp*l2t'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -44,8 +44,10 @@ INSTALLED_APPS = [
     'checkout',
     'accounts',
 ]
+SITE_ID = 1
 
 MIDDLEWARE = [
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -53,9 +55,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
-
 ]
+FLATPAGES_EXCLUDE_ADMIN = False
 
 ROOT_URLCONF = 'ecomstore.urls'
 
@@ -71,6 +72,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'utils.context_processors.ecomstore',
             ],
         },
     },
@@ -140,13 +144,6 @@ META_KEYWORDS = 'Music, instruments, music accessories, musician supplies'
 META_DESCRIPTION = 'Modern Musician is an online supplier of instruments, sheet music, and other accessories for ' \
                    'musicians'
 # MEDIA_URL = '/static/'
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.contrib.auth.context_processors.auth',
-    'django.template.context_processors.debug',
-    'django.template.context_processors.i18n',
-    'django.template.context_processors.media',
-    'utils.context_processors.ecomstore',
-)
 
 # Cookie name. This can be whatever you want.
 SESSION_COOKIE_NAME = 'sessionid'
@@ -161,5 +158,5 @@ SESSION_COOKIE_SECURE = False
 
 AUTHNET_POST_URL = 'test.authorize.net'
 AUTHNET_POST_PATH = '/gateway/transact.dll'
-AUTHNET_LOGIN ='hoang'
+AUTHNET_LOGIN = 'hoang'
 AUTHNET_KEY = '123'

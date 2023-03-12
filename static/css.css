@@ -76,16 +76,16 @@ a.skip_link{
 #navigation ul{
  list-style:none;
 }
-#navigation li{
+#navigation ul li{
  float:left;
  margin-right:15px;
 }
-#navigation  li a{
+#navigation ul li a{
  color:White;
  font-weight:bold;
  text-decoration:underline;
 }
-#navigation  li a:hover{
+#navigation ul li a:hover{
  color:#616161;
  background-color:White;
  text-decoration:none;

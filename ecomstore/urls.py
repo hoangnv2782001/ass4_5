@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+# from django.contrib.admin import s
 from django.urls import path,include
 import preview.views
 import catalog.urls
@@ -26,9 +27,9 @@ admin.autodiscover()
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path("catalog/",preview.views.home),
-    path('catalog/',include(catalog.urls)),
+    path('',include(catalog.urls)),
     path('cart/',include(cart.urls)),
     # path('accounts/', include(accounts.urls)),
-    path('ccounts/', include('django.contrib.auth.urls')),
+    # path('ccounts/', include('django.contrib.auth.urls')),
 ]
 handler404 = file_not_found_404
