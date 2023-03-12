@@ -48,4 +48,4 @@ def show_product(request, product_slug, template_name="catalog/product.html"):
         form.fields['product_slug'].widget.attrs['value'] = product_slug
         # set the test cookie on our first GET request
         request.session.set_test_cookie()
-        return render(request,'catalog/ product.html', locals())
+        return render(request,'catalog/product.html', locals())
