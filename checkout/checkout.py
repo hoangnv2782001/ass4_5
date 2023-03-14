@@ -1,4 +1,3 @@
-
 from cart import cart
 from checkout.models import Order, OrderItem
 from checkout.forms import CheckoutForm
@@ -6,6 +5,7 @@ from checkout import authnet
 from ecomstore import settings
 from django.urls import reverse
 import urllib
+from accounts import profile
 
 
 # returns the URL from the checkout module for cart
@@ -38,7 +38,7 @@ def process(request):
 
         results = {'order_number': order.id, 'message': ''}
     if response[0] == DECLINED:
-        results = {'order_number': 0,'message':'There is a problemwith your credit card.'}
+        results = {'order_number': 0, 'message': 'There is a problemwith your credit card.'}
     if response[0] == ERROR or response[0] == HELD_FOR_REVIEW:
         results = {'order_number': 0, 'message': 'Error processing your order.'}
     return results
@@ -51,20 +51,24 @@ def create_order(request, transaction_id):
     order.transaction_id = transaction_id
     order.ip_address = request.META.get('REMOTE_ADDR')
     order.user = None
+    if request.user.is_authenticated():
+        order.user = request.user
     order.status = Order.SUBMITTED
     order.save()
-# if the order save succeeded
+    # if the order save succeeded
     if order.pk:
-       cart_items = cart.get_cart_items(request)
-       for ci in cart_items:
-          # create order item for each cart item
-          oi = OrderItem()
-          oi.order = order
-          oi.quantity = ci.quantity
-          oi.price = ci.price  # now using @property
-          oi.product = ci.product
-          oi.save()
-       # all set, empty cart
-       cart.empty_cart(request)
-# return the new order object
+        cart_items = cart.get_cart_items(request)
+        for ci in cart_items:
+            # create order item for each cart item
+            oi = OrderItem()
+            oi.order = order
+            oi.quantity = ci.quantity
+            oi.price = ci.price  # now using @property
+            oi.product = ci.product
+            oi.save()
+        # all set, empty cart
+        cart.empty_cart(request)
+        if request.user.is_authenticated():
+            profile.set(request)
+        # return the new order object
     return order

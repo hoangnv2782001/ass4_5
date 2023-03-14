@@ -156,7 +156,16 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 # Whether the session cookie should be secure (https:// only).
 SESSION_COOKIE_SECURE = False
 
+
+GOOGLE_CHECKOUT_MERCHANT_ID = ''
+GOOGLE_CHECKOUT_MERCHANT_KEY = ''
+GOOGLE_CHECKOUT_URL = 'https://sandbox.google.com/checkout/api/v2/merchantCheckout/Merchant/' + GOOGLE_CHECKOUT_MERCHANT_ID
+
 AUTHNET_POST_URL = 'test.authorize.net'
 AUTHNET_POST_PATH = '/gateway/transact.dll'
-AUTHNET_LOGIN = 'hoang'
-AUTHNET_KEY = '123'
+AUTHNET_LOGIN = '6Fy99w5qRXFm'
+AUTHNET_KEY = '3YemG5D8qV92Xq39'
+
+LOGIN_REDIRECT_URL = '/account/my_account/'
+
+AUTH_PROFILE_MODULE = 'accounts.userprofile'

@@ -5,7 +5,32 @@ from catalog.models import Product
 import decimal
 
 
-class Order(models.Model):
+class BaseOrderInfo(models.Model):
+    class Meta:
+        abstract = True
+
+    # contact info
+    email = models.EmailField(max_length=50)
+    phone = models.CharField(max_length=20)
+    # shipping information
+    shipping_name = models.CharField(max_length=50)
+    shipping_address_1 = models.CharField(max_length=50)
+    shipping_address_2 = models.CharField(max_length=50, blank=True)
+    shipping_city = models.CharField(max_length=50)
+    shipping_state = models.CharField(max_length=2)
+    shipping_country = models.CharField(max_length=50)
+    shipping_zip = models.CharField(max_length=10)
+    # billing information
+    billing_name = models.CharField(max_length=50)
+    billing_address_1 = models.CharField(max_length=50)
+    billing_address_2 = models.CharField(max_length=50, blank=True)
+    billing_city = models.CharField(max_length=50)
+    billing_state = models.CharField(max_length=2)
+    billing_country = models.CharField(max_length=50)
+    billing_zip = models.CharField(max_length=10)
+
+
+class Order(BaseOrderInfo):
     # each individual status
     SUBMITTED = 1
     PROCESSED = 2
@@ -18,9 +43,9 @@ class Order(models.Model):
     # order info
     date = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=ORDER_STATUSES, default=SUBMITTED)
-    ip_address =models.CharField(max_length=20)
+    ip_address = models.CharField(max_length=20)
     last_updated = models.DateTimeField(auto_now=True)
-    user = models.ForeignKey(User, null=True,on_delete=models.CASCADE)
+    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
     transaction_id = models.CharField(max_length=20)
 
     # contact info
@@ -48,6 +73,9 @@ class Order(models.Model):
     def __unicode__(self):
         return 'Order #' + str(self.id)
 
+    def get_absolute_url(self):
+        return 'order_details', (), {'order_id': self.id}
+
     @property
     def total(self):
         total = decimal.Decimal('0.00')
@@ -58,10 +86,10 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-    product = models.ForeignKey(Product,on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
     price = models.DecimalField(max_digits=9, decimal_places=2)
-    order = models.ForeignKey(Order,on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
 
     @property
     def total(self):

@@ -19,6 +19,7 @@ from django.urls import path,include
 import preview.views
 import catalog.urls
 import cart.urls
+import checkout.urls
 from .views import file_not_found_404
 import accounts.urls
 
@@ -26,10 +27,10 @@ admin.autodiscover()
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('checkout/',include(checkout.urls)),
     # path("catalog/",preview.views.home),
     path('',include(catalog.urls)),
     path('cart/',include(cart.urls)),
-    # path('accounts/', include(accounts.urls)),
-    # path('ccounts/', include('django.contrib.auth.urls')),
+    path('accounts/', include(accounts.urls)),
 ]
 handler404 = file_not_found_404

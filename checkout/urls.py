@@ -1,7 +1,7 @@
 from django.urls import include, path
 from ecomstore import settings
+from checkout import views
 urlpatterns = [
-    path('', 'show_checkout', {'template_name': 'checkout/checkout.html','SSL': settings.ENABLE_SSL}, 'checkout'),
-    path('receipt', 'receipt', {'template_name': 'checkout/receipt.html',
-                                'SSL': settings.ENABLE_SSL}, 'checkout_receipt'),
+    path('', views.show_checkout , {'template_name': 'checkout/checkout.html'}, 'checkout'),
+    path('receipt/', views.receipt, {'template_name': 'checkout/receipt.html'}, 'checkout_receipt'),
 ]

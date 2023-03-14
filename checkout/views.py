@@ -8,6 +8,7 @@ from checkout.forms import CheckoutForm
 from checkout.models import Order, OrderItem
 from checkout import checkout
 from cart import cart
+from accounts import profile
 
 
 def show_checkout(request, template_name='checkout/checkout.html'):
@@ -22,19 +23,23 @@ def show_checkout(request, template_name='checkout/checkout.html'):
             order_number = response.get('order_number', 0)
             error_message = response.get('message', '')
             if order_number:
-               request.session['order_number'] = order_number
-               receipt_url = reverse('checkout_receipt')
-               return HttpResponseRedirect(receipt_url)
+                request.session['order_number'] = order_number
+                receipt_url = reverse('checkout_receipt')
+                return HttpResponseRedirect(receipt_url)
         else:
             error_message = 'Correct the errors below'
-    else:
-        form = CheckoutForm()
-    page_title = 'Checkout'
-    return render(request,template_name, locals())
+            if request.user.is_authenticated():
+                 user_profile = profile.retrieve(request)
+                 form = CheckoutForm(instance=user_profile)
+            else:
+                 form = CheckoutForm()
+
+        page_title = 'Checkout'
+        return render(request, template_name, locals())
 
 
 def receipt(request, template_name='checkout/receipt.html'):
-    order_number = request.session.get('order_number','')
+    order_number = request.session.get('order_number', '')
     if order_number:
         order = Order.objects.filter(id=order_number)[0]
         order_items = OrderItem.objects.filter(order=order)
@@ -42,4 +47,4 @@ def receipt(request, template_name='checkout/receipt.html'):
     else:
         cart_url = reverse('show_cart')
         return HttpResponseRedirect(cart_url)
-    return render(request,template_name,locals())
+    return render(request, template_name, locals())
